@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Painel | Sakura</title>
+<link rel="stylesheet" href="admin.css">
+<style>
+.panel{width:min(1100px,100%);margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.logout,.secondary,.small-btn{width:auto;background:#25252b;padding:10px 16px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card h2{font-size:1.1rem;margin-top:0;color:var(--pink2)}
+textarea{width:100%;min-height:90px;background:#0f0f12;color:#fff;border:1px solid var(--line);border-radius:12px;padding:13px;resize:vertical}
+.save{margin-top:25px}
+.section-card{margin-bottom:20px}
+.service-list{display:grid;gap:12px}
+.service-row{background:#0f0f12;border:1px solid var(--line);border-radius:15px;padding:15px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.service-info strong{display:block;font-size:1rem}.service-info span{display:block;color:#aaa;font-size:.84rem;margin-top:4px}
+.service-actions{display:flex;gap:8px;flex-wrap:wrap}.service-actions button{width:auto;margin:0;padding:10px 13px}
+.add-service{margin-top:15px}
+.editor{display:none;margin-top:15px;border-top:1px solid var(--line);padding-top:18px}
+.editor.open{display:block}
+.editor .grid{grid-template-columns:repeat(2,1fr)}
+.check{display:flex;align-items:center;gap:8px;margin-top:20px}.check input{width:auto;margin:0}
+.danger{background:#5b172f}
+.small-note{color:#8f8f98;font-size:.8rem;line-height:1.5}
+.account-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.account-tools button{width:auto}
+.account-row{background:#0f0f12;border:1px solid var(--line);border-radius:15px;padding:15px;display:flex;justify-content:space-between;align-items:center;gap:12px}.account-row strong{display:block}.account-row span{display:block;color:#aaa;font-size:.84rem;margin-top:4px}.account-actions{display:flex;gap:8px;flex-wrap:wrap}.account-actions button{width:auto;margin:0;padding:10px 13px}
+
+@media(max-width:700px){.grid,.editor .grid{grid-template-columns:1fr}.service-row{grid-template-columns:1fr}.top{align-items:flex-start;gap:15px}.card{padding:25px}}
+</style>
+</head>
+<body>
+<main class="panel">
+<div class="top">
+  <div><div class="brand" style="text-align:left;margin:0">🌸 SAKURA</div><h1 style="text-align:left;margin:5px 0">Painel administrativo</h1></div>
+  <button class="logout" id="logout">Sair</button>
+</div>
+
+<section class="card section-card">
+<h2>Informações do salão</h2>
+<div class="grid">
+<label>Endereço<input id="address"></label>
+<label>Telefone<input id="phone"></label>
+<label>WhatsApp<input id="whatsapp"></label>
+<label>E-mail<input id="email"></label>
+<label>Instagram<input id="instagram"></label>
+<label>Segunda a sexta — abertura<input id="weekOpen" type="time"></label>
+<label>Segunda a sexta — fechamento<input id="weekClose" type="time"></label>
+<label>Sábado — abertura<input id="satOpen" type="time"></label>
+<label>Sábado — fechamento<input id="satClose" type="time"></label>
+</div>
+<label>Mensagem de agendamento<textarea id="bookingMessage"></textarea></label>
+<button class="save" id="save">SALVAR ALTERAÇÕES</button>
+<p id="saved" class="message"></p>
+</section>
+
+<section class="card section-card">
+<h2>Gerenciar serviços</h2>
+<p class="small-note">Edite nome, descrição, preço, categoria e visibilidade. As alterações aparecem na página “Serviços”.</p>
+<div id="serviceList" class="service-list"></div>
+<button class="add-service" id="addService">+ ADICIONAR NOVO SERVIÇO</button>
+</section>
+
+<section class="card section-card">
+<h2>Meu cadastro</h2>
+<p class="small-note">Crie novos acessos sem apagar os anteriores e exclua somente o acesso que desejar.</p>
+<div id="accountList" class="service-list"></div>
+<div class="account-tools">
+<button class="secondary" id="addAccount">+ CRIAR OUTRO ACESSO</button>
+</div>
+</section>
+</main>
+
+<script>
+if(sessionStorage.getItem('sakuraAdminLogged')!=='1') location.href='index.html';
+
+const DATA='sakuraSiteData';
+const SERVICES='sakuraServices';
+const defaults={
+ address:'Rua do Petróleo, 687, Perola, Santa Bárbara d’Oeste SP - 13454-183, Brasil',
+ phone:'(19) 98904-6655',
+ whatsapp:'5519989046655',
+ email:'salaosakura0904@gmail.com',
+ instagram:'https://www.instagram.com/sakuraconcept',
+ weekOpen:'09:00',weekClose:'19:00',satOpen:'09:00',satClose:'17:00',
+ bookingMessage:'Olá! Gostaria de agendar o serviço: '
+};
+
+const defaultServices=[{"id":"microagulhamento","name":"Microagulhamento","nameEn":"Microneedling","short":"Cuidado e renovação da pele","shortEn":"Skin renewal and care","price":"a partir de R$ 80","priceEn":"from R$ 80","description":"Tratamento estético que utiliza microperfurações controladas para estimular a renovação da pele e a produção de colágeno, ajudando a melhorar a textura, a firmeza e a aparência da pele.","descriptionEn":"Aesthetic treatment that uses controlled micro-punctures to stimulate skin renewal and collagen production, helping improve skin texture, firmness and appearance.","category":"estética","active":true},{"id":"escova","name":"Escova","nameEn":"Blowout","short":"Finalização e modelagem","shortEn":"Finishing and styling","price":"a partir de R$ 60","priceEn":"from R$ 60","description":"Finalização dos cabelos com modelagem e acabamento, proporcionando fios alinhados, leves e com movimento, de acordo com o resultado desejado.","descriptionEn":"Hair finishing with styling and shaping, providing smooth, lightweight and bouncy hair according to the desired result.","category":"cabelo","active":true},{"id":"coloracao","name":"Coloração","nameEn":"Coloring","short":"Cor personalizada","shortEn":"Custom color","price":"sob consulta","priceEn":"upon consultation","description":"Serviço de coloração personalizado para transformar ou realçar a cor dos cabelos, considerando o tom desejado e as características de cada cabelo.","descriptionEn":"Personalized hair coloring to transform or enhance the hair color, considering the desired tone and each hair's characteristics.","category":"cabelo","active":true},{"id":"mechas","name":"Mechas / iluminação","nameEn":"Highlights / balayage","short":"Técnica personalizada","shortEn":"Customized technique","price":"sob consulta","priceEn":"upon consultation","description":"Técnica de iluminação personalizada para criar pontos de luz e realçar os cabelos de forma harmoniosa, respeitando o estilo e o resultado desejado.","descriptionEn":"Personalized highlighting technique to create points of light and enhance the hair harmoniously, respecting the desired style and result.","category":"cabelo","active":true},{"id":"hidratacao","name":"Hidratação","nameEn":"Hair treatment","short":"Tratamento nutritivo","shortEn":"Nourishing treatment","price":"a partir de R$ 70","priceEn":"from R$ 70","description":"Tratamento desenvolvido para devolver hidratação e maciez aos fios, ajudando a melhorar a aparência, o toque e o aspecto saudável dos cabelos.","descriptionEn":"Treatment designed to restore moisture and softness to the hair, helping improve its appearance, feel and healthy look.","category":"cabelo","active":true},{"id":"limpeza-de-pele","name":"Limpeza de pele","nameEn":"Facial cleansing","short":"Protocolo facial","shortEn":"Facial protocol","price":"a partir de R$ 120","priceEn":"from R$ 120","description":"Procedimento de cuidado facial que auxilia na remoção de impurezas e no equilíbrio da pele, deixando o rosto com aparência mais limpa, suave e renovada.","descriptionEn":"Facial care procedure that helps remove impurities and balance the skin, leaving the face looking cleaner, smoother and refreshed.","category":"noivas","active":true},{"id":"sobrancelhas","name":"Sobrancelhas","nameEn":"Eyebrows","short":"Design e acabamento","shortEn":"Design and finishing","price":"a partir de R$ 35","priceEn":"from R$ 35","description":"Design e acabamento das sobrancelhas de acordo com o formato do rosto e o estilo desejado, valorizando a expressão e a harmonia facial.","descriptionEn":"Eyebrow design and finishing according to the face shape and desired style, enhancing facial expression and harmony.","category":"noivas","active":true},{"id":"manicure","name":"Manicure","nameEn":"Manicure","short":"Cutilagem + esmaltação","shortEn":"Cuticle care + polish","price":"a partir de R$ 35","priceEn":"from R$ 35","description":"Cuidado completo das unhas das mãos, com acabamento delicado e esmaltação para deixar as unhas bem cuidadas e bonitas.","descriptionEn":"Complete care for the fingernails, with a delicate finish and polish to leave the nails looking neat and beautiful.","category":"debutante","active":true},{"id":"pedicure","name":"Pedicure","nameEn":"Pedicure","short":"Cuidado completo","shortEn":"Complete care","price":"a partir de R$ 45","priceEn":"from R$ 45","description":"Cuidado completo dos pés e das unhas, com acabamento e esmaltação para proporcionar um resultado bonito, delicado e bem cuidado.","descriptionEn":"Complete foot and toenail care, with finishing and polish for a beautiful, delicate and well-groomed result.","category":"debutante","active":true}];
+function getJSON(key,fallback){try{const x=JSON.parse(localStorage.getItem(key));return x??fallback}catch{return fallback}}
+function saveJSON(key,value){localStorage.setItem(key,JSON.stringify(value))}
+function siteData(){return Object.assign({},defaults,getJSON(DATA,{}))}
+function getServices(){return getJSON(SERVICES,defaultServices)}
+function uid(){return 'servico-'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+
+const d=siteData();
+Object.keys(defaults).forEach(k=>{const el=document.getElementById(k);if(el)el.value=d[k]??''});
+
+document.getElementById('save').onclick=()=>{
+ const data={}; Object.keys(defaults).forEach(k=>data[k]=document.getElementById(k).value);
+ saveJSON(DATA,data);
+ const saved=document.getElementById('saved'); saved.textContent='Alterações salvas com sucesso!'; saved.className='message ok';
+};
+
+const categoryOptions=['cabelo','estética','noivas','debutante','cursos'];
+
+async function translateToEnglish(text, fallback=''){
+ if(!text)return '';
+ const known={
+  'Microagulhamento':'Microneedling','Escova':'Blowout','Coloração':'Coloring','Mechas / iluminação':'Highlights / balayage','Hidratação':'Hair treatment','Limpeza de pele':'Facial cleansing','Sobrancelhas':'Eyebrows','Manicure':'Manicure','Pedicure':'Pedicure',
+  'Cuidado e renovação da pele':'Skin renewal and care','Finalização e modelagem':'Finishing and styling','Cor personalizada':'Custom color','Técnica personalizada':'Customized technique','Tratamento nutritivo':'Nourishing treatment','Protocolo facial':'Facial protocol','Design e acabamento':'Design and finishing','Cutilagem + esmaltação':'Cuticle care + polish','Cuidado completo':'Complete care',
+  'sob consulta':'upon consultation','a partir de':'from'
+ };
+ if(known[text])return known[text];
+ if(/^a partir de /i.test(text))return text.replace(/^a partir de /i,'from ');
+ if(/^sob consulta$/i.test(text))return 'upon consultation';
+ try{
+   const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=pt|en';
+   const res=await fetch(url);
+   if(!res.ok)throw new Error('translation');
+   const data=await res.json();
+   const translated=data?.responseData?.translatedText;
+   if(translated && translated.toLowerCase()!==text.toLowerCase())return translated;
+ }catch(e){}
+ return fallback || text;
+}
+
+function renderServices(){
+ const list=document.getElementById('serviceList');
+ list.innerHTML='';
+ getServices().forEach(s=>{
+   const row=document.createElement('div'); row.className='service-row';
+   row.innerHTML=`<div class="service-info"><strong>${escapeHTML(s.name)}</strong><span>${escapeHTML(s.price)} • ${escapeHTML(s.category)} • ${s.active?'Visível no site':'Oculto no site'}</span></div>
+   <div class="service-actions"><button class="small-btn" data-edit="${s.id}">EDITAR</button><button class="small-btn danger" data-delete="${s.id}">EXCLUIR</button></div>`;
+   list.appendChild(row);
+   const editor=document.createElement('div'); editor.className='editor'; editor.id='editor-'+s.id;
+   editor.innerHTML=editorHTML(s);
+   list.appendChild(editor);
+ });
+ list.querySelectorAll('[data-edit]').forEach(btn=>btn.onclick=()=>{
+   document.getElementById('editor-'+btn.dataset.edit).classList.toggle('open');
+ });
+ list.querySelectorAll('[data-delete]').forEach(btn=>btn.onclick=()=>{
+   const arr=getServices(); const item=arr.find(x=>x.id===btn.dataset.delete);
+   if(item && confirm('Excluir o serviço "'+item.name+'"?')){
+     saveJSON(SERVICES,arr.filter(x=>x.id!==btn.dataset.delete)); renderServices();
+   }
+ });
+ list.querySelectorAll('[data-save-service]').forEach(btn=>btn.onclick=async()=>{
+   const id=btn.dataset.saveService, arr=getServices(), idx=arr.findIndex(x=>x.id===id);
+   if(idx<0)return;
+   const box=document.getElementById('editor-'+id);
+   const name=box.querySelector('[name=name]').value.trim();
+   const short=box.querySelector('[name=short]').value.trim();
+   const price=box.querySelector('[name=price]').value.trim();
+   const description=box.querySelector('[name=description]').value.trim();
+   if(!name)return alert('Informe o nome do serviço.');
+   btn.disabled=true; btn.textContent='TRADUZINDO...';
+   const [nameEn,shortEn,priceEn,descriptionEn]=await Promise.all([
+     translateToEnglish(name,arr[idx].nameEn||name),
+     translateToEnglish(short,arr[idx].shortEn||short),
+     translateToEnglish(price,arr[idx].priceEn||price),
+     translateToEnglish(description,arr[idx].descriptionEn||description)
+   ]);
+   const updated={
+     ...arr[idx], name, short, price, description,
+     nameEn, shortEn, priceEn, descriptionEn,
+     category:box.querySelector('[name=category]').value,
+     active:box.querySelector('[name=active]').checked
+   };
+   arr[idx]=updated; saveJSON(SERVICES,arr); renderServices();
+   setTimeout(()=>document.getElementById('editor-'+id)?.classList.add('open'),0);
+ });
+}
+
+function editorHTML(s){
+ return `<div class="grid">
+ <label>Nome (PT)<input name="name" value="${attr(s.name)}"></label>
+ <label>Texto curto (PT)<input name="short" value="${attr(s.short||'')}"></label>
+ <label>Preço (PT)<input name="price" value="${attr(s.price||'')}"></label>
+ <label>Categoria<select name="category">${categoryOptions.map(c=>`<option value="${c}" ${c===s.category?'selected':''}>${c}</option>`).join('')}</select></label>
+ </div>
+ <label>Descrição (PT)<textarea name="description">${escapeHTML(s.description||'')}</textarea></label>
+ <p class="small-note">🇺🇸 A versão em inglês será gerada automaticamente ao salvar.</p>
+ <label class="check"><input type="checkbox" name="active" ${s.active?'checked':''}> Mostrar este serviço no site</label>
+ <button data-save-service="${s.id}">SALVAR SERVIÇO</button>`;
+}
+function escapeHTML(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function attr(v){return escapeHTML(v)}
+renderServices();
+
+document.getElementById('addService').onclick=()=>{
+ const arr=getServices();
+ const s={id:uid(),name:'Novo serviço',nameEn:'New service',short:'Descrição curta',shortEn:'Short description',price:'sob consulta',priceEn:'upon consultation',description:'Descreva o serviço.',descriptionEn:'Describe the service.',category:'cabelo',active:true};
+ arr.push(s); saveJSON(SERVICES,arr); renderServices();
+ setTimeout(()=>document.getElementById('editor-'+s.id)?.classList.add('open'),0);
+};
+
+document.getElementById('logout').onclick=()=>{
+ sessionStorage.removeItem('sakuraAdminLogged'); location.href='index.html';
+};
+
+const ACCOUNT_KEY='sakuraAdminAccounts';
+function getAccounts(){try{const a=JSON.parse(localStorage.getItem(ACCOUNT_KEY));return Array.isArray(a)?a:[]}catch{return []}}
+function saveAccounts(a){localStorage.setItem(ACCOUNT_KEY,JSON.stringify(a))}
+function renderAccounts(){
+ const list=document.getElementById('accountList');
+ const current=sessionStorage.getItem('sakuraAdminUser');
+ list.innerHTML='';
+ getAccounts().forEach(a=>{
+   const row=document.createElement('div'); row.className='account-row';
+   row.innerHTML=`<div><strong>${escapeHTML(a.username)} ${a.username===current?'(seu acesso)':''}</strong><span>Acesso administrativo</span></div><div class="account-actions"><button class="small-btn" data-change-account="${a.id}">ALTERAR SENHA</button><button class="small-btn danger" data-delete-account="${a.id}">EXCLUIR</button></div>`;
+   list.appendChild(row);
+ });
+ list.querySelectorAll('[data-change-account]').forEach(btn=>btn.onclick=()=>{
+   const arr=getAccounts(), a=arr.find(x=>x.id===btn.dataset.changeAccount); if(!a)return;
+   const p=prompt('Digite a nova senha para '+a.username+' (mínimo 6 caracteres):');
+   if(p===null)return; if(p.length<6)return alert('A senha precisa ter pelo menos 6 caracteres.');
+   const c=prompt('Confirme a nova senha:'); if(c!==p)return alert('As senhas não são iguais.');
+   a.password=p; saveAccounts(arr); alert('Senha alterada com sucesso.');
+ });
+ list.querySelectorAll('[data-delete-account]').forEach(btn=>btn.onclick=()=>{
+   const arr=getAccounts(), a=arr.find(x=>x.id===btn.dataset.deleteAccount); if(!a)return;
+   if(arr.length<=1)return alert('É necessário manter pelo menos um acesso administrativo.');
+   if(!confirm('Excluir o acesso de "'+a.username+'"? Esta ação não exclui os outros acessos.'))return;
+   saveAccounts(arr.filter(x=>x.id!==a.id));
+   if(a.username===current){sessionStorage.removeItem('sakuraAdminLogged');sessionStorage.removeItem('sakuraAdminUser');location.href='index.html';return;}
+   renderAccounts();
+ });
+}
+
+document.getElementById('addAccount').onclick=()=>{
+ const u=prompt('Nome do novo usuário:'); if(u===null)return;
+ const username=u.trim(); if(username.length<3)return alert('O usuário precisa ter pelo menos 3 caracteres.');
+ const arr=getAccounts(); if(arr.some(a=>a.username.toLowerCase()===username.toLowerCase()))return alert('Esse usuário já existe.');
+ const p=prompt('Senha do novo acesso (mínimo 6 caracteres):'); if(p===null)return;
+ if(p.length<6)return alert('A senha precisa ter pelo menos 6 caracteres.');
+ const c=prompt('Confirme a senha:'); if(c!==p)return alert('As senhas não são iguais.');
+ arr.push({id:'admin-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),username,password:p});
+ saveAccounts(arr); renderAccounts(); alert('Novo acesso criado. O acesso anterior continua funcionando.');
+};
+renderAccounts();
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Administração | Sakura</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<main class="auth">
+  <section class="card" id="setup">
+    <div class="brand">🌸 <span>SAKURA</span></div>
+    <h1>Configuração inicial</h1>
+    <p class="muted">Crie o usuário e a senha que serão usados pelas administradoras.</p>
+    <form id="setupForm">
+      <label>Nome de usuário<input id="newUser" required minlength="3" autocomplete="username"></label>
+      <label>Senha<input id="newPass" type="password" required minlength="6" autocomplete="new-password"></label>
+      <label>Confirmar senha<input id="confirmPass" type="password" required minlength="6" autocomplete="new-password"></label>
+      <button>CRIAR ACESSO</button>
+    </form>
+  </section>
+
+  <section class="card hidden" id="login">
+    <div class="brand">🌸 <span>SAKURA</span></div>
+    <h1>Painel administrativo</h1>
+    <p class="muted">Entre com seu usuário e senha.</p>
+    <form id="loginForm">
+      <label>Nome de usuário<input id="user" required autocomplete="username"></label>
+      <label>Senha<input id="pass" type="password" required autocomplete="current-password"></label>
+      <button>ENTRAR</button>
+      <p class="actions"><button type="button" class="link" id="forgot">Esqueci minha senha</button></p>
+    </form>
+    <p class="actions"><button type="button" class="link" id="resetPasswordLink">Redefinir minha senha</button></p>
+  </section>
+
+  <section class="card hidden" id="resetPasswordBox">
+    <div class="brand">🌸 <span>SAKURA</span></div>
+    <h1>Redefinir senha</h1>
+    <p class="muted">Informe seu usuário e crie uma nova senha. Os outros acessos continuam intactos.</p>
+    <form id="resetPasswordForm">
+      <label>Nome de usuário<input id="resetUser" required autocomplete="username"></label>
+      <label>Nova senha<input id="resetNewPass" type="password" required minlength="6" autocomplete="new-password"></label>
+      <label>Confirmar nova senha<input id="resetConfirmPass" type="password" required minlength="6" autocomplete="new-password"></label>
+      <button>REDEFINIR SENHA</button>
+    </form>
+    <p class="actions"><button type="button" class="link" id="backLogin">← Voltar para o login</button></p>
+  </section>
+  <p id="msg" class="message"></p>
+</main>
+<script src="admin.js"></script>
+</body>
+</html>

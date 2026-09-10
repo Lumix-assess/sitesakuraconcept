@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
+    <meta content="Sakura Cabelo e Estética — beleza, cuidado e autoestima." name="description" />
+
+    <title data-i18n-title="true">
+        Serviços | Sakura Cabelo e Estética
+    </title>
+
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+
+        <div class="container nav">
+
+            <a class="logo" href="index.html">
+                <img alt="Sakura Cabelo e Estética" data-alt-en="Sakura Hair &amp; Beauty"
+                    data-alt-pt="Sakura Cabelo e Estética" src="img/flor sakura sem fundo.png" />
+            </a>
+
+            <button aria-label="Abrir menu" class="menu">
+                ☰
+            </button>
+
+            <nav class="nav-links">
+
+                <a class="" data-i18n="Início" href="index.html">
+                    Início
+                </a>
+
+                <a class="active" data-i18n="Serviços" href="servicos.html">
+                    Serviços
+                </a>
+
+                <a class="" data-i18n="Sobre" href="sobre.html">
+                    Sobre
+                </a>
+
+                <a class="" data-i18n="Galeria" href="galeria.html">
+                    Galeria
+                </a>
+
+                <a class="" data-i18n="Avaliações" href="avaliacoes.html">
+                    Avaliações
+                </a>
+
+                <a class="" data-i18n="Contato" href="contato.html">
+                    Contato
+                </a>
+
+                <a class="btn btn-primary" data-i18n="Agendar" href="contato.html#agendamento">
+                    Agendar
+                </a>
+
+                <div aria-label="Language selector" class="language-switch">
+
+                    <button class="lang-btn active" data-lang="pt" type="button">
+                        PT
+                    </button>
+
+                    <button class="lang-btn" data-lang="en" type="button">
+                        EN
+                    </button>
+
+                </div>
+
+            </nav>
+
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <!-- CABEÇALHO DA PÁGINA -->
+
+        <section class="page-head">
+
+            <div class="container">
+
+
+                <div class="eyebrow" data-i18n="Menu de beleza">
+                    Menu de beleza
+                </div>
+
+                <h1 data-i18n-html="Nossos &lt;span&gt;serviços&lt;/span&gt;">
+                    Nossos <span>serviços</span>
+                </h1>
+
+                <p class="lead"
+                    data-i18n="Confira os principais serviços. Valores iniciais e sujeitos a avaliação conforme comprimento, técnica e necessidade.">
+                    Confira os principais serviços. Valores iniciais e sujeitos a avaliação conforme
+                    comprimento, técnica e necessidade.
+                </p>
+
+
+            </div>
+
+        </section>
+
+        <!-- SERVIÇOS -->
+
+        <section class="section dark-section">
+
+            <div class="container">
+
+                <!-- FILTROS -->
+
+                <div class="filters">
+
+
+                    <button class="filter active" data-filter="todos" data-i18n="Todos">
+                        Todos
+                    </button>
+
+                    <button class="filter" data-filter="estética" data-i18n="estética">
+                        Estética
+                    </button>
+
+                    <button class="filter" data-filter="noivas" data-i18n="noivas">
+                        Noivas
+                    </button>
+
+                    <button class="filter" data-filter="debutante" data-i18n="debutante">
+                        Debutante
+                    </button>
+
+                    <button class="filter" data-filter="cursos" data-i18n="cursos">
+                        Cursos
+                    </button>
+
+
+                </div>
+
+                <!-- CARDS DOS SERVIÇOS -->
+
+                <div class="services-grid" id="servicesGrid"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- RODAPÉ -->
+
+    <!-- MODAL DE DETALHES DO SERVIÇO -->
+    <div class="service-modal" id="serviceModal" aria-hidden="true">
+        <div class="service-modal-overlay" data-close-modal></div>
+        <div class="service-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalServiceTitle">
+            <button class="service-modal-close" type="button" aria-label="Fechar" data-close-modal>&times;</button>
+            <h2 id="modalServiceTitle"></h2>
+            <p id="modalServiceDescription"></p>
+            <a id="modalScheduleButton" class="btn btn-primary service-modal-schedule" href="contato.html#agendamento"
+                data-i18n="Agendar este serviço">Agendar este serviço</a>
+        </div>
+    </div>
+
+    <footer>
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <!-- LOGO / REDES -->
+
+                <div>
+
+                    <img alt="Sakura" class="footer-logo" src="img/logo-sakura sem fundo.png" />
+
+                    <p data-i18n="Cabelo, estética e autocuidado com carinho em cada detalhe." style="margin-top:12px">
+                        Cabelo, estética e autocuidado com carinho em cada detalhe.
+                    </p>
+
+                    <div class="social">
+
+                        <a aria-label="Instagram" href="https://www.instagram.com/sakuraconcept"
+                            data-admin-href="instagram" data-admin-href="instagram">
+
+                            <img src="img/instagram.png" alt="Instagram">
+
+                        </a>
+
+                        <a aria-label="WhatsApp" href="https://wa.me/5519989046655" data-admin-href="whatsapp">
+
+                            <img src="img/Whatsapp.png" alt="WhatsApp">
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- MENU -->
+
+                <div>
+
+                    <h4 data-i18n="Menu">
+                        Menu
+                    </h4>
+
+                    <p>
+                        <a data-i18n="Início" href="index.html">
+                            Início
+                        </a>
+                    </p>
+
+                    <p>
+                        <a data-i18n="Serviços" href="servicos.html">
+                            Serviços
+                        </a>
+                    </p>
+
+                    <p>
+                        <a data-i18n="Sobre" href="sobre.html">
+                            Sobre
+                        </a>
+                    </p>
+
+                    <p>
+                        <a data-i18n="Galeria" href="galeria.html">
+                            Galeria
+                        </a>
+                    </p>
+
+                </div>
+
+                <!-- ATENDIMENTO -->
+
+                <div>
+
+                    <h4 data-i18n="Atendimento">
+                        Atendimento
+                    </h4>
+
+                    <p>
+                        Segunda a sexta<br />
+                        09h às 19h
+                    </p>
+
+                    <p>
+                        Sábado<br />
+                        09h às 17h
+                    </p>
+
+                </div>
+
+                <!-- CONTATO -->
+
+                <div>
+
+                    <h4 data-i18n="Contato">
+                        Contato
+                    </h4>
+
+                    <p>
+                        (19) 98904-6655
+                    </p>
+
+                    <p>
+                        salaosakura0904@gmail.com
+                    </p>
+
+                    <p>
+                        Rua do Petróleo, 687, Perola,
+                        Santa Bárbara d'Oeste SP -
+                        13454-183, Brasil
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="copyright">
+
+                © 2026 Sakura Cabelo e Estética.
+                Todos os direitos reservados.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- BOTÃO WHATSAPP -->
+
+    <a aria-label="WhatsApp" class="whatsapp" href="https://wa.me/5519989046655" data-admin-href="whatsapp"
+        rel="noopener" target="_blank">
+
+        <img src="img/Whatsapp.png" alt="WhatsApp">
+
+    </a>
+
+    <!-- TOAST -->
+
+    <div class="toast" data-i18n="Solicitação recebida! Agora é só confirmar o horário com a equipe. 💗">
+
+        Solicitação recebida! Agora é só confirmar o horário com a equipe. 💗
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const SERVICES = 'sakuraServices';
+            const defaultServices = [{ "id": "microagulhamento", "name": "Microagulhamento", "nameEn": "Microneedling", "short": "Cuidado e renovação da pele", "shortEn": "Skin renewal and care", "price": "a partir de R$ 80", "priceEn": "from R$ 80", "description": "Tratamento estético que utiliza microperfurações controladas para estimular a renovação da pele e a produção de colágeno, ajudando a melhorar a textura, a firmeza e a aparência da pele.", "descriptionEn": "Aesthetic treatment that uses controlled micro-punctures to stimulate skin renewal and collagen production, helping improve skin texture, firmness and appearance.", "category": "estética", "active": true }, { "id": "escova", "name": "Escova", "nameEn": "Blowout", "short": "Finalização e modelagem", "shortEn": "Finishing and styling", "price": "a partir de R$ 60", "priceEn": "from R$ 60", "description": "Finalização dos cabelos com modelagem e acabamento, proporcionando fios alinhados, leves e com movimento, de acordo com o resultado desejado.", "descriptionEn": "Hair finishing with styling and shaping, providing smooth, lightweight and bouncy hair according to the desired result.", "category": "cabelo", "active": true }, { "id": "coloracao", "name": "Coloração", "nameEn": "Coloring", "short": "Cor personalizada", "shortEn": "Custom color", "price": "sob consulta", "priceEn": "upon consultation", "description": "Serviço de coloração personalizado para transformar ou realçar a cor dos cabelos, considerando o tom desejado e as características de cada cabelo.", "descriptionEn": "Personalized hair coloring to transform or enhance the hair color, considering the desired tone and each hair's characteristics.", "category": "cabelo", "active": true }, { "id": "mechas", "name": "Mechas / iluminação", "nameEn": "Highlights / balayage", "short": "Técnica personalizada", "shortEn": "Customized technique", "price": "sob consulta", "priceEn": "upon consultation", "description": "Técnica de iluminação personalizada para criar pontos de luz e realçar os cabelos de forma harmoniosa, respeitando o estilo e o resultado desejado.", "descriptionEn": "Personalized highlighting technique to create points of light and enhance the hair harmoniously, respecting the desired style and result.", "category": "cabelo", "active": true }, { "id": "hidratacao", "name": "Hidratação", "nameEn": "Hair treatment", "short": "Tratamento nutritivo", "shortEn": "Nourishing treatment", "price": "a partir de R$ 70", "priceEn": "from R$ 70", "description": "Tratamento desenvolvido para devolver hidratação e maciez aos fios, ajudando a melhorar a aparência, o toque e o aspecto saudável dos cabelos.", "descriptionEn": "Treatment designed to restore moisture and softness to the hair, helping improve its appearance, feel and healthy look.", "category": "cabelo", "active": true }, { "id": "limpeza-de-pele", "name": "Limpeza de pele", "nameEn": "Facial cleansing", "short": "Protocolo facial", "shortEn": "Facial protocol", "price": "a partir de R$ 120", "priceEn": "from R$ 120", "description": "Procedimento de cuidado facial que auxilia na remoção de impurezas e no equilíbrio da pele, deixando o rosto com aparência mais limpa, suave e renovada.", "descriptionEn": "Facial care procedure that helps remove impurities and balance the skin, leaving the face looking cleaner, smoother and refreshed.", "category": "noivas", "active": true }, { "id": "sobrancelhas", "name": "Sobrancelhas", "nameEn": "Eyebrows", "short": "Design e acabamento", "shortEn": "Design and finishing", "price": "a partir de R$ 35", "priceEn": "from R$ 35", "description": "Design e acabamento das sobrancelhas de acordo com o formato do rosto e o estilo desejado, valorizando a expressão e a harmonia facial.", "descriptionEn": "Eyebrow design and finishing according to the face shape and desired style, enhancing facial expression and harmony.", "category": "noivas", "active": true }, { "id": "manicure", "name": "Manicure", "nameEn": "Manicure", "short": "Cutilagem + esmaltação", "shortEn": "Cuticle care + polish", "price": "a partir de R$ 35", "priceEn": "from R$ 35", "description": "Cuidado completo das unhas das mãos, com acabamento delicado e esmaltação para deixar as unhas bem cuidadas e bonitas.", "descriptionEn": "Complete care for the fingernails, with a delicate finish and polish to leave the nails looking neat and beautiful.", "category": "debutante", "active": true }, { "id": "pedicure", "name": "Pedicure", "nameEn": "Pedicure", "short": "Cuidado completo", "shortEn": "Complete care", "price": "a partir de R$ 45", "priceEn": "from R$ 45", "description": "Cuidado completo dos pés e das unhas, com acabamento e esmaltação para proporcionar um resultado bonito, delicado e bem cuidado.", "descriptionEn": "Complete foot and toenail care, with finishing and polish for a beautiful, delicate and well-groomed result.", "category": "debutante", "active": true }];
+            const grid = document.getElementById("servicesGrid");
+            const modal = document.getElementById("serviceModal");
+            const title = document.getElementById("modalServiceTitle");
+            const description = document.getElementById("modalServiceDescription");
+            const scheduleButton = document.getElementById("modalScheduleButton");
+            let currentKey = null;
+
+            function getServices() {
+                try {
+                    const saved = JSON.parse(localStorage.getItem(SERVICES));
+                    return Array.isArray(saved) ? saved : defaultServices;
+                } catch { return defaultServices }
+            }
+            function isEnglish() { return document.documentElement.lang === "en" }
+            function esc(v) { return String(v ?? "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m])) }
+
+            function renderServices() {
+                const list = getServices().filter(s => s.active !== false);
+                grid.innerHTML = "";
+                list.forEach(s => {
+                    const card = document.createElement("a");
+                    card.href = "#" + s.id;
+                    card.className = "service";
+                    card.dataset.category = s.category || "cabelo";
+                    const en = isEnglish();
+                    card.innerHTML = `<div><b>${esc(en ? s.nameEn : s.name)}</b><small>${esc(en ? s.shortEn : s.short)}</small></div><div class="price">${esc(en ? s.priceEn : s.price)}</div>`;
+                    card.addEventListener("click", e => { e.preventDefault(); openModal(s.id) });
+                    grid.appendChild(card);
+                });
+                applyFilter(document.querySelector(".filter.active")?.dataset.filter || "todos");
+            }
+
+            function applyFilter(cat) {
+                grid.querySelectorAll(".service").forEach(s => {
+                    s.style.display = (cat === "todos" || s.dataset.category === cat) ? "flex" : "none";
+                });
+            }
+
+            function openModal(key) {
+                const item = getServices().find(s => s.id === key);
+                if (!item) return;
+                currentKey = key;
+                const en = isEnglish();
+                title.textContent = en ? item.nameEn : item.name;
+                description.textContent = en ? item.descriptionEn : item.description;
+                scheduleButton.textContent = en ? "Book this service" : "Agendar este serviço";
+                scheduleButton.href = "contato.html?servico=" + encodeURIComponent(en ? item.nameEn : item.name) + "#agendamento";
+                modal.classList.add("show");
+                modal.setAttribute("aria-hidden", "false");
+                document.body.classList.add("modal-open");
+            }
+
+            function closeModal() {
+                modal.classList.remove("show");
+                modal.setAttribute("aria-hidden", "true");
+                document.body.classList.remove("modal-open");
+                currentKey = null;
+            }
+
+            document.querySelectorAll(".filter").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    applyFilter(btn.dataset.filter);
+                });
+            });
+            document.querySelectorAll("[data-close-modal]").forEach(el => el.addEventListener("click", closeModal));
+            document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal() });
+
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    setTimeout(() => {
+                        renderServices();
+                        if (currentKey) openModal(currentKey);
+                    }, 50);
+                });
+            });
+
+            renderServices();
+        });
+    </script>
+
+    <script src="lib/sakura-ui.js"></script>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
